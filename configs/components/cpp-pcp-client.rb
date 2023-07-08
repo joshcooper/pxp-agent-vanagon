@@ -8,6 +8,8 @@ component 'cpp-pcp-client' do |pkg, settings, platform|
 
   if platform.is_windows?
     pkg.environment 'PATH', "$(shell cygpath -u #{settings[:gcc_bindir]}):$(shell cygpath -u #{settings[:bindir]}):/cygdrive/c/Windows/system32:/cygdrive/c/Windows:/cygdrive/c/Windows/System32/WindowsPowerShell/v1.0"
+  elsif platform.is_aix?
+    pkg.environment 'PATH', '/opt/freeware/bin:$(PATH)'
   else
     pkg.environment 'PATH', "#{settings[:bindir]}:/opt/pl-build-tools/bin:$(PATH)"
   end
@@ -20,6 +22,9 @@ component 'cpp-pcp-client' do |pkg, settings, platform|
   pkg.build_requires 'leatherman'
 
   if platform.is_aix?
+    cmake = '/opt/freeware/bin/cmake'
+    special_flags = "-DENABLE_CXX_WERROR=OFF"
+    toolchain = ''
     # This should be moved to the toolchain file
     platform_flags = '-DCMAKE_SHARED_LINKER_FLAGS="-Wl,-bbigtoc"'
   elsif platform.is_macos?

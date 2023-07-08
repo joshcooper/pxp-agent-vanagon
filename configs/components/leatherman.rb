@@ -68,11 +68,14 @@ component 'leatherman' do |pkg, settings, platform|
 
     # Use environment variable set in environment.bat to find locale files
     leatherman_locale_var = "-DLEATHERMAN_LOCALE_VAR='PUPPET_DIR' -DLEATHERMAN_LOCALE_INSTALL='share/locale'"
-  elsif platform.name =~ /el-[67]|redhatfips-7|sles-12|ubuntu-18.04-amd64/ ||
-        platform.is_aix?
+  elsif platform.name =~ /el-[67]|redhatfips-7|sles-12|ubuntu-18.04-amd64/
     toolchain = '-DCMAKE_TOOLCHAIN_FILE=/opt/pl-build-tools/pl-build-toolchain.cmake'
     cmake = '/opt/pl-build-tools/bin/cmake'
     special_flags += " -DCMAKE_CXX_FLAGS='-Wno-deprecated-declarations' "
+  elsif platform.is_aix?
+    cmake = '/opt/freeware/bin/cmake'
+    pkg.environment 'PATH', "/opt/freeware/bin:$(PATH):#{settings[:bindir]}"
+    special_flags += " -DENABLE_CXX_WERROR=OFF "
   else
     # These platforms use the default OS toolchain, rather than pl-build-tools
     pkg.environment 'CPPFLAGS', settings[:cppflags]

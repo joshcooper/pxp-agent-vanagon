@@ -7,6 +7,8 @@ component 'pxp-agent' do |pkg, settings, platform|
 
   if platform.is_windows?
     pkg.environment 'PATH', "$(shell cygpath -u #{settings[:prefix]}/lib):$(shell cygpath -u #{settings[:gcc_bindir]}):$(shell cygpath -u #{settings[:ruby_bindir]}):/cygdrive/c/Windows/system32:/cygdrive/c/Windows:/cygdrive/c/Windows/System32/WindowsPowerShell/v1.0"
+  elsif platform.is_aix?
+    pkg.environment 'PATH', '/opt/freeware/bin:$(PATH)'
   else
     pkg.environment 'PATH', "#{settings[:bindir]}:/opt/pl-build-tools/bin:$(PATH)"
   end
@@ -26,6 +28,9 @@ component 'pxp-agent' do |pkg, settings, platform|
   special_flags = " -DCMAKE_INSTALL_PREFIX=#{settings[:prefix]} "
 
   if platform.is_aix?
+    cmake = '/opt/freeware/bin/cmake'
+    toolchain = ''
+    special_flags += "-DENABLE_CXX_WERROR=OFF"
   elsif platform.is_macos?
     cmake = '/usr/local/bin/cmake'
     toolchain = ''

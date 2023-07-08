@@ -33,10 +33,13 @@ component 'cpp-hocon' do |pkg, settings, platform|
 
     cmake = 'C:/ProgramData/chocolatey/bin/cmake.exe -G "MinGW Makefiles"'
     toolchain = "-DCMAKE_TOOLCHAIN_FILE=#{settings[:tools_root]}/pl-build-toolchain.cmake"
-  elsif platform.name =~ /el-[67]|redhatfips-7|sles-12|ubuntu-18.04-amd64/ ||
-        platform.is_aix?
+  elsif platform.name =~ /el-[67]|redhatfips-7|sles-12|ubuntu-18.04-amd64/
     toolchain = '-DCMAKE_TOOLCHAIN_FILE=/opt/pl-build-tools/pl-build-toolchain.cmake'
     cmake = '/opt/pl-build-tools/bin/cmake'
+  elsif platform.is_aix?
+    pkg.environment 'PATH', '/opt/freeware/bin:$(PATH)'
+    cmake = '/opt/freeware/bin/cmake'
+    special_flags = "-DENABLE_CXX_WERROR=OFF"
   else
     # These platforms use the default OS toolchain, rather than pl-build-tools
     pkg.environment 'CPPFLAGS', settings[:cppflags]
