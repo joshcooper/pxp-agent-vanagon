@@ -16,7 +16,7 @@ component 'leatherman' do |pkg, settings, platform|
   elsif platform.is_windows?
     pkg.build_requires 'cmake'
     pkg.build_requires "pl-gettext-#{platform.architecture}"
-  elsif platform.name =~ /el-[67]|redhatfips-7|sles-12|ubuntu-18.04-amd64/
+  elsif platform.name =~ /el-[67]|redhatfips-7|sles-1[12]|ubuntu-18.04-amd64/
     pkg.build_requires 'pl-cmake'
     pkg.build_requires 'pl-gettext'
     pkg.build_requires 'runtime'
@@ -77,7 +77,7 @@ component 'leatherman' do |pkg, settings, platform|
 
     # Use environment variable set in environment.bat to find locale files
     leatherman_locale_var = "-DLEATHERMAN_LOCALE_VAR='PUPPET_DIR' -DLEATHERMAN_LOCALE_INSTALL='share/locale'"
-  elsif platform.name =~ /el-[67]|redhatfips-7|sles-12|ubuntu-18.04-amd64/ ||
+  elsif platform.name =~ /el-[67]|redhatfips-7|sles-1[12]|ubuntu-18.04-amd64/ ||
         platform.is_aix?
     toolchain = '-DCMAKE_TOOLCHAIN_FILE=/opt/pl-build-tools/pl-build-toolchain.cmake'
     cmake = '/opt/pl-build-tools/bin/cmake'

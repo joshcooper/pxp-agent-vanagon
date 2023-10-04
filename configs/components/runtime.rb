@@ -10,7 +10,7 @@ component 'runtime' do |pkg, _settings, platform|
     pkg.build_requires "pl-iconv-#{platform.architecture}"
     pkg.build_requires "pl-libffi-#{platform.architecture}"
     pkg.build_requires "pl-pdcurses-#{platform.architecture}"
-  elsif platform.name =~ /el-[67]|redhatfips-7|sles-12|ubuntu-18.04-amd64/
+  elsif platform.name =~ /el-[67]|redhatfips-7|sles-1[12]|ubuntu-18.04-amd64/
     pkg.build_requires 'pl-gcc'
   end
 end
