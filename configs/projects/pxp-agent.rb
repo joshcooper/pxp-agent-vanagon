@@ -31,7 +31,7 @@ project 'pxp-agent' do |proj|
 
   proj.component 'pl-cmake-patch'
   proj.component 'puppet-runtime'
-  proj.component 'runtime' if platform.name =~ /el-[67]|redhatfips-7|sles-12|ubuntu-18.04-amd64/ || !platform.is_linux?
+  proj.component 'runtime' if platform.name =~ /el-[67]|redhatfips-7|sles-1[12]|ubuntu-18.04-amd64/ || !platform.is_linux?
 
   proj.component 'leatherman'
   proj.component 'cpp-hocon'
